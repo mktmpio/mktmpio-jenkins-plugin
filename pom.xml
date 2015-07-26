@@ -63,6 +63,18 @@
       </dependency>
     </dependencies>
     -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jenkins-ci.tools</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                <version>1.106</version>
+                <configuration>
+                    <injectedTestName>InjectIT</injectedTestName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>com.mashape.unirest</groupId>
