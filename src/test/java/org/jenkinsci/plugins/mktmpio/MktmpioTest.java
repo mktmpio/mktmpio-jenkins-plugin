@@ -11,7 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
-public class MktmpioBuildWrapperTest extends MktmpioBaseTest {
+public class MktmpioTest extends MktmpioBaseTest {
     @Rule
     public JenkinsRule j = new JenkinsRule();
 
@@ -23,7 +23,7 @@ public class MktmpioBuildWrapperTest extends MktmpioBaseTest {
     @Test
     public void failWithBadCredentials() throws Exception {
         getConfig().setToken("totally-bad-token");
-        final MktmpioBuildWrapper mktmpio = new MktmpioBuildWrapper("redis");
+        final Mktmpio mktmpio = new Mktmpio("redis");
         final FreeStyleProject project = j.jenkins.createProject(FreeStyleProject.class, "failingProject");
         project.getBuildWrappersList().add(mktmpio);
         prepareToRejectUnauthorized("totally-bad-token", "redis");
@@ -39,7 +39,7 @@ public class MktmpioBuildWrapperTest extends MktmpioBaseTest {
     @Test
     public void succeedWithGoodCredentials() throws Exception {
         getConfig().setToken("totally-legit-token");
-        final MktmpioBuildWrapper mktmpio = new MktmpioBuildWrapper("redis");
+        final Mktmpio mktmpio = new Mktmpio("redis");
         final FreeStyleProject project = j.jenkins.createProject(FreeStyleProject.class, "basicProject");
         project.getBuildWrappersList().add(mktmpio);
         prepareFakeInstance("totally-legit-token", "redis");
@@ -51,7 +51,7 @@ public class MktmpioBuildWrapperTest extends MktmpioBaseTest {
         assertThat(s, containsString("mktmpio instance shutdown"));
     }
 
-    private MktmpioBuildWrapper.MktmpioBuildWrapperDescriptor getConfig() {
-        return (MktmpioBuildWrapper.MktmpioBuildWrapperDescriptor) j.jenkins.getDescriptor(MktmpioBuildWrapper.class);
+    private Mktmpio.MktmpioBuildWrapperDescriptor getConfig() {
+        return (Mktmpio.MktmpioBuildWrapperDescriptor) j.jenkins.getDescriptor(Mktmpio.class);
     }
 }

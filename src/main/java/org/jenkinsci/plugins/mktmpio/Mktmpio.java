@@ -16,14 +16,14 @@ import org.kohsuke.stapler.StaplerRequest;
 import java.io.IOException;
 import java.util.Map;
 
-public class MktmpioBuildWrapper extends SimpleBuildWrapper {
+public class Mktmpio extends SimpleBuildWrapper {
 
     // Job config
     private String instanceType;
     private boolean shutdownWithBuild = false;
 
     @DataBoundConstructor
-    public MktmpioBuildWrapper(String instanceType) {
+    public Mktmpio(String instanceType) {
         this.instanceType = instanceType;
     }
 
@@ -112,7 +112,7 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
 
         @Override
         public BuildWrapper newInstance(final StaplerRequest req, final JSONObject formData) throws hudson.model.Descriptor.FormException {
-            return req.bindJSON(MktmpioBuildWrapper.class, formData);
+            return req.bindJSON(Mktmpio.class, formData);
         }
 
         public String getToken() {
