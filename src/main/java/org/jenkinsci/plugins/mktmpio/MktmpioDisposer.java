@@ -19,7 +19,7 @@ public class MktmpioDisposer extends Disposer {
     @Override
     public void tearDown(final Run<?, ?> run, final FilePath workspace, final Launcher launcher, final TaskListener listener) throws IOException, InterruptedException {
         if (!env.shutdownWithBuild) {
-            Mktmpio.shutdownAndCleanup(env, launcher, listener);
+            Mktmpio.dispose(env, launcher, listener);
         }
     }
 }

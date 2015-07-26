@@ -27,7 +27,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         this.instanceType = instanceType;
     }
 
-    static void shutdownAndCleanup(final MktmpioEnvironment env, final Launcher launcher, final TaskListener listener) throws IOException, InterruptedException {
+    static void dispose(final MktmpioEnvironment env, final Launcher launcher, final TaskListener listener) throws IOException, InterruptedException {
         final String instanceID = env.id;
         MktmpioInstance instance = new MktmpioInstance(env);
         instance.destroy();
