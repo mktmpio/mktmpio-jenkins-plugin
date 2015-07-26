@@ -17,7 +17,7 @@ public class MktmpioTest extends MktmpioBaseTest {
 
     @Before
     public void setServer() {
-        getConfig().setMktmpioServer(mockedServer());
+        getConfig().setServer(mockedServer());
     }
 
     @Test

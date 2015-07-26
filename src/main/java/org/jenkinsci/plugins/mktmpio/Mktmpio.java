@@ -67,7 +67,7 @@ public class Mktmpio extends SimpleBuildWrapper {
             throws IOException, InterruptedException {
         final MktmpioDescriptor config = getDescriptor();
         final String token = config.getToken();
-        final String baseUrl = config.getMktmpioServer();
+        final String baseUrl = config.getServer();
         final String type = getInstanceType();
         final MktmpioInstance instance;
         try {
@@ -96,7 +96,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         @CopyOnWrite
         private String token;
         @CopyOnWrite
-        private String mktmpioServer = "https://mktmp.io";
+        private String server = "https://mktmp.io";
 
         public MktmpioDescriptor() {
             load();
@@ -105,7 +105,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         @Override
         public boolean configure(final StaplerRequest req, final JSONObject formData) {
             token = formData.getString("token");
-            mktmpioServer = formData.optString("mktmpioServer", "https://mktmp.io");
+            server = formData.optString("server", "https://mktmp.io");
             save();
             return true;
         }
@@ -124,13 +124,13 @@ public class Mktmpio extends SimpleBuildWrapper {
             this.token = token;
         }
 
-        public String getMktmpioServer() {
-            return mktmpioServer;
+        public String getServer() {
+            return server;
         }
 
         @DataBoundSetter
-        public void setMktmpioServer(String mktmpioServer) {
-            this.mktmpioServer = mktmpioServer;
+        public void setServer(String server) {
+            this.server = server;
         }
 
         public boolean isApplicable(AbstractProject<?, ?> item) {
