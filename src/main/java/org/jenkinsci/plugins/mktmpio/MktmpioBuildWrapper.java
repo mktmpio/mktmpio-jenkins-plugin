@@ -138,7 +138,7 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
         }
 
         public String getDisplayName() {
-            return "Temporary databases by mktmpio";
+            return "Create temporary database server for build";
         }
 
         public ListBoxModel doFillInstanceTypeItems() {
