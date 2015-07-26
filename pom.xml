@@ -23,6 +23,11 @@
             <url>http://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
+
+    <properties>
+        <workflow.version>1.8</workflow.version>
+    </properties>
+
     <developers>
         <developer>
             <id>rmgraham</id>
@@ -85,6 +90,58 @@
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>
             <version>1.57</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-job</artifactId>
+            <version>${workflow.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-basic-steps</artifactId>
+            <version>${workflow.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-cps</artifactId>
+            <version>${workflow.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-durable-task-step</artifactId>
+            <version>${workflow.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency> <!-- using org.jenkinsci.plugins.workflow.steps.StepConfigTester in tests -->
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-step-api</artifactId>
+            <version>${workflow.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency> <!-- using org.jenkinsci.plugins.workflow.JenkinsRuleExt in tests -->
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-aggregator</artifactId>
+            <version>${workflow.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <!--<dependency> &lt;!&ndash; prevent ClassNotFounds during test &ndash;&gt;-->
+            <!--<groupId>org.jenkins-ci.modules</groupId>-->
+            <!--<artifactId>sshd</artifactId>-->
+            <!--<version>1.6</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <dependency> <!-- using org.jenkinsci.plugins.workflow.test.steps.SemaphoreStep in tests -->
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-support</artifactId>
+            <version>${workflow.version}</version>
+            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>
