@@ -92,6 +92,16 @@ public class Mktmpio extends SimpleBuildWrapper {
         context.setDisposer(new MktmpioDisposer(env));
     }
 
+    public static ListBoxModel instanceTypes() {
+        ListBoxModel items = new ListBoxModel();
+        items.add("MySQL", "mysql");
+        items.add("PostgreSQL-9.4", "postgres");
+        items.add("PostgreSQL-9.5", "postgres-9.5");
+        items.add("Redis", "redis");
+        items.add("MongoDB", "mongodb");
+        return items;
+    }
+
     @Extension
     public static final class MktmpioDescriptor extends BuildWrapperDescriptor {
 
@@ -142,13 +152,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         }
 
         public ListBoxModel doFillInstanceTypeItems() {
-            ListBoxModel items = new ListBoxModel();
-            items.add("MySQL", "mysql");
-            items.add("PostgreSQL-9.4", "postgres");
-            items.add("PostgreSQL-9.5", "postgres-9.5");
-            items.add("Redis", "redis");
-            items.add("MongoDB", "mongodb");
-            return items;
+            return instanceTypes();
         }
     }
 }
