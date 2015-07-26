@@ -33,16 +33,6 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
         listener.getLogger().printf("mktmpio instance shutdown. type: %s, host: %s, port: %d\n", env.type, env.host, env.port);
     }
 
-    public ListBoxModel doFillInstanceTypeItems() {
-        ListBoxModel items = new ListBoxModel();
-        items.add("MySQL", "mysql");
-        items.add("PostgreSQL-9.4", "postgres");
-        items.add("PostgreSQL-9.5", "postgres-9.5");
-        items.add("Redis", "redis");
-        items.add("MongoDB", "mongodb");
-        return items;
-    }
-
     public String getInstanceType() {
         return instanceType;
     }
@@ -135,6 +125,16 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
 
         public String getDisplayName() {
             return "Temporary databases by mktmpio";
+        }
+
+        public ListBoxModel doFillInstanceTypeItems() {
+            ListBoxModel items = new ListBoxModel();
+            items.add("MySQL", "mysql");
+            items.add("PostgreSQL-9.4", "postgres");
+            items.add("PostgreSQL-9.5", "postgres-9.5");
+            items.add("Redis", "redis");
+            items.add("MongoDB", "mongodb");
+            return items;
         }
     }
 }
