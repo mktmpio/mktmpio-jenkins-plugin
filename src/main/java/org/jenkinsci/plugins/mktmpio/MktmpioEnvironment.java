@@ -3,6 +3,8 @@ package org.jenkinsci.plugins.mktmpio;
 import hudson.model.InvisibleAction;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MktmpioEnvironment extends InvisibleAction implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -24,5 +26,16 @@ public class MktmpioEnvironment extends InvisibleAction implements Serializable 
         this.password = password;
         this.type = type;
         this.shutdownWithBuild = shutdownWithBuild;
+    }
+
+    public Map<String, String> envVars() {
+        Map<String, String> vars = new HashMap<String, String>(6);
+        vars.put("MKTMPIO_HOST", host);
+        vars.put("MKTMPIO_PORT", Integer.toString(port));
+        vars.put("MKTMPIO_USERNAME", username);
+        vars.put("MKTMPIO_PASSWORD", password);
+        vars.put("MKTMPIO_ID", id);
+        vars.put("MKTMPIO_TYPE", type);
+        return vars;
     }
 }

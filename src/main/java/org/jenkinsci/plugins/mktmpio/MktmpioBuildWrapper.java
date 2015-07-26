@@ -1,9 +1,7 @@
 package org.jenkinsci.plugins.mktmpio;
 
 import hudson.*;
-import hudson.console.ConsoleNote;
 import hudson.model.AbstractProject;
-import hudson.model.Descriptor;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildWrapper;
@@ -16,6 +14,7 @@ import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class MktmpioBuildWrapper extends SimpleBuildWrapper {
 
@@ -66,24 +65,28 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
                       TaskListener listener,
                       EnvVars initialEnvironment)
             throws IOException, InterruptedException {
-        final String token =  getDescriptor().getToken();
-        final String baseUrl = getDescriptor().getMktmpioServer();
+        final MktmpioBuildWrapperDescriptor config = getDescriptor();
+        final String token = config.getToken();
+        final String baseUrl = config.getMktmpioServer();
         final String type = getInstanceType();
         final MktmpioInstance instance;
         try {
             listener.getLogger().printf("Attempting to create instance (server: %s, token: %s, type: %s)",
-                                        baseUrl, token.replaceAll(".", "*"), type);
+                    baseUrl, token.replaceAll(".", "*"), type);
             instance = MktmpioInstance.create(baseUrl, token, type, isShutdownWithBuild());
         } catch (IOException ex) {
             listener.fatalError("mktmpio: " + ex.getMessage());
             throw new InterruptedException(ex.getMessage());
         }
         final MktmpioEnvironment env = instance.getEnv();
+        final Map<String, String> envVars = env.envVars();
         listener.hyperlink("https://mktmp.io/i/" + env.id, env.type + " instance " + env.id);
-        listener.getLogger().printf("mktmpio instance created. type: %s, host: %s, port: %d\n", env.type, env.host, env.port);
+        listener.getLogger().printf("mktmpio instance created: %s\n", env.type);
+        for (Map.Entry<String, String> entry : envVars.entrySet()) {
+            listener.getLogger().printf("setting %s=%s\n", entry.getKey(), entry.getValue());
+        }
         build.addAction(env);
-        context.env("MKTMPIO_HOST", env.host);
-        context.env("MKTMPIO_PORT", String.valueOf(env.port));
+        context.getEnv().putAll(envVars);
         context.setDisposer(new MktmpioDisposer(env));
     }
 
