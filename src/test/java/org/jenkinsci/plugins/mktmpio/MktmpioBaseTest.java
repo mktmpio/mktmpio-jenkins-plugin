@@ -23,7 +23,7 @@ public class MktmpioBaseTest {
     }
 
     public void prepareFakeInstance(final String token, final String type) {
-        final String instance = "{\"id\":\"01ab34cd56ef\",\"host\":\"12.34.56.78\",\"port\":1234,\"type\":\"" + type + "\"}";
+        final String instance = "{\"id\":\"01ab34cd56ef\",\"host\":\"12.34.56.78\",\"port\":54321,\"type\":\"" + type + "\"}";
         stubFor(post(urlEqualTo("/api/v1/new/" + type))
                 .withHeader("X-Auth-Token", equalTo(token))
                 .willReturn(aResponse()

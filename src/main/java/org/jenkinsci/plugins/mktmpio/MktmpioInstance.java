@@ -4,7 +4,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.sun.istack.internal.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -37,14 +36,13 @@ public class MktmpioInstance {
         JSONObject res = json.getBody().getObject();
         String id = res.getString("id");
         String host = res.getString("host");
-        short port = (short) res.getInt("port");
-        String username = res.optString("username");
-        String password = res.optString("password");
+        int port = res.getInt("port");
+        String username = res.optString("username", "");
+        String password = res.optString("password", "");
         final MktmpioEnvironment env = new MktmpioEnvironment(token, id, host, port, username, password, type, shutdownWithBuild);
         return new MktmpioInstance(env);
     }
 
-    @NotNull
     public MktmpioEnvironment getEnv() {
         return this.env;
     }
