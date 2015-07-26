@@ -18,6 +18,8 @@ import java.util.Map;
 
 public class Mktmpio extends SimpleBuildWrapper {
 
+    public static final String DEFAULT_SERVER = "https://mktmp.io";
+
     // Job config
     private String instanceType;
     private boolean shutdownWithBuild = false;
@@ -80,7 +82,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         }
         final MktmpioEnvironment env = instance.getEnv();
         final Map<String, String> envVars = env.envVars();
-        listener.hyperlink("https://mktmp.io/i/" + env.id, env.type + " instance " + env.id);
+        listener.hyperlink(baseUrl + "/i/" + env.id, env.type + " instance " + env.id);
         listener.getLogger().printf("mktmpio instance created: %s\n", env.type);
         for (Map.Entry<String, String> entry : envVars.entrySet()) {
             listener.getLogger().printf("setting %s=%s\n", entry.getKey(), entry.getValue());
@@ -94,9 +96,7 @@ public class Mktmpio extends SimpleBuildWrapper {
     public static final class MktmpioDescriptor extends BuildWrapperDescriptor {
 
         @CopyOnWrite
-        private String token;
-        @CopyOnWrite
-        private String server = "https://mktmp.io";
+        private String token, server = Mktmpio.DEFAULT_SERVER;
 
         public MktmpioDescriptor() {
             load();
@@ -105,7 +105,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         @Override
         public boolean configure(final StaplerRequest req, final JSONObject formData) {
             token = formData.getString("token");
-            server = formData.optString("server", "https://mktmp.io");
+            server = formData.optString("server", Mktmpio.DEFAULT_SERVER);
             save();
             return true;
         }
