@@ -51,7 +51,7 @@ public class MktmpioTest extends MktmpioBaseTest {
         assertThat(s, containsString("mktmpio instance shutdown"));
     }
 
-    private Mktmpio.MktmpioBuildWrapperDescriptor getConfig() {
-        return (Mktmpio.MktmpioBuildWrapperDescriptor) j.jenkins.getDescriptor(Mktmpio.class);
+    private Mktmpio.MktmpioDescriptor getConfig() {
+        return (Mktmpio.MktmpioDescriptor) j.jenkins.getDescriptor(Mktmpio.class);
     }
 }

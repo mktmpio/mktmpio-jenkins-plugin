@@ -53,8 +53,8 @@ public class Mktmpio extends SimpleBuildWrapper {
     }
 
     @Override
-    public MktmpioBuildWrapperDescriptor getDescriptor() {
-        return (MktmpioBuildWrapperDescriptor) super.getDescriptor();
+    public MktmpioDescriptor getDescriptor() {
+        return (MktmpioDescriptor) super.getDescriptor();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Mktmpio extends SimpleBuildWrapper {
                       TaskListener listener,
                       EnvVars initialEnvironment)
             throws IOException, InterruptedException {
-        final MktmpioBuildWrapperDescriptor config = getDescriptor();
+        final MktmpioDescriptor config = getDescriptor();
         final String token = config.getToken();
         final String baseUrl = config.getMktmpioServer();
         final String type = getInstanceType();
@@ -91,14 +91,14 @@ public class Mktmpio extends SimpleBuildWrapper {
     }
 
     @Extension
-    public static final class MktmpioBuildWrapperDescriptor extends BuildWrapperDescriptor {
+    public static final class MktmpioDescriptor extends BuildWrapperDescriptor {
 
         @CopyOnWrite
         private String token;
         @CopyOnWrite
         private String mktmpioServer = "https://mktmp.io";
 
-        public MktmpioBuildWrapperDescriptor() {
+        public MktmpioDescriptor() {
             load();
         }
 
