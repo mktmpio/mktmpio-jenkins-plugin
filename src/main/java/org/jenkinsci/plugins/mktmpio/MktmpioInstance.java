@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.sun.istack.internal.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class MktmpioInstance {
         return new MktmpioInstance(env);
     }
 
+    @NotNull
     public MktmpioEnvironment getEnv() {
         return this.env;
     }

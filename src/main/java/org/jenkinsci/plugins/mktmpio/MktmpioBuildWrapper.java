@@ -1,7 +1,9 @@
 package org.jenkinsci.plugins.mktmpio;
 
 import hudson.*;
+import hudson.console.ConsoleNote;
 import hudson.model.AbstractProject;
+import hudson.model.Descriptor;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildWrapper;
@@ -52,6 +54,11 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
     }
 
     @Override
+    public MktmpioBuildWrapperDescriptor getDescriptor() {
+        return (MktmpioBuildWrapperDescriptor) super.getDescriptor();
+    }
+
+    @Override
     public void setUp(SimpleBuildWrapper.Context context,
                       Run<?, ?> build,
                       FilePath workspace,
@@ -59,12 +66,13 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
                       TaskListener listener,
                       EnvVars initialEnvironment)
             throws IOException, InterruptedException {
-        MktmpioBuildWrapperDescriptor config = (MktmpioBuildWrapperDescriptor) build.getParent().getDescriptorByName("MktmpioBuildWrapper");
-        final String token = getDescriptor().getToken();
+        final String token =  getDescriptor().getToken();
         final String baseUrl = getDescriptor().getMktmpioServer();
         final String type = getInstanceType();
         final MktmpioInstance instance;
         try {
+            listener.getLogger().printf("Attempting to create instance (server: %s, token: %s, type: %s)",
+                                        baseUrl, token.replaceAll(".", "*"), type);
             instance = MktmpioInstance.create(baseUrl, token, type, isShutdownWithBuild());
         } catch (IOException ex) {
             listener.fatalError("mktmpio: " + ex.getMessage());
@@ -79,11 +87,6 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
         context.setDisposer(new MktmpioDisposer(env));
     }
 
-    @Override
-    public MktmpioBuildWrapperDescriptor getDescriptor() {
-        return (MktmpioBuildWrapperDescriptor) super.getDescriptor();
-    }
-
     @Extension
     public static final class MktmpioBuildWrapperDescriptor extends BuildWrapperDescriptor {
 
@@ -94,6 +97,14 @@ public class MktmpioBuildWrapper extends SimpleBuildWrapper {
 
         public MktmpioBuildWrapperDescriptor() {
             load();
+        }
+
+        @Override
+        public boolean configure(final StaplerRequest req, final JSONObject formData) {
+            token = formData.getString("token");
+            mktmpioServer = formData.optString("mktmpioServer", "https://mktmp.io");
+            save();
+            return true;
         }
 
         @Override
