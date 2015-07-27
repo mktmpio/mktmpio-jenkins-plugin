@@ -21,28 +21,28 @@ public class Mktmpio extends SimpleBuildWrapper {
     public static final String DEFAULT_SERVER = "https://mktmp.io";
 
     // Job config
-    private String instanceType;
+    private String dbType;
     private boolean shutdownWithBuild = false;
 
     @DataBoundConstructor
-    public Mktmpio(String instanceType) {
-        this.instanceType = instanceType;
+    public Mktmpio(String dbType) {
+        this.dbType = dbType;
     }
 
     static void dispose(final MktmpioEnvironment env, final Launcher launcher, final TaskListener listener) throws IOException, InterruptedException {
         final String instanceID = env.id;
         MktmpioInstance instance = new MktmpioInstance(env);
         instance.destroy();
-        listener.getLogger().printf("mktmpio instance shutdown. type: %s, host: %s, port: %d\n", env.type, env.host, env.port);
+        listener.getLogger().printf("mktmpio instance shutdown. type: %s, host: %s, port: %d\n", env.dbType, env.host, env.port);
     }
 
-    public String getInstanceType() {
-        return instanceType;
+    public String getDbType() {
+        return dbType;
     }
 
     @DataBoundSetter
-    public void setInstanceType(String instanceType) {
-        this.instanceType = instanceType;
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
     }
 
     public boolean isShutdownWithBuild() {
@@ -70,20 +70,20 @@ public class Mktmpio extends SimpleBuildWrapper {
         final MktmpioDescriptor config = getDescriptor();
         final String token = config.getToken();
         final String baseUrl = config.getServer();
-        final String type = getInstanceType();
+        final String dbType = getDbType();
         final MktmpioInstance instance;
         try {
             listener.getLogger().printf("Attempting to create instance (server: %s, token: %s, type: %s)",
-                    baseUrl, token.replaceAll(".", "*"), type);
-            instance = MktmpioInstance.create(baseUrl, token, type, isShutdownWithBuild());
+                    baseUrl, token.replaceAll(".", "*"), dbType);
+            instance = MktmpioInstance.create(baseUrl, token, dbType, isShutdownWithBuild());
         } catch (IOException ex) {
             listener.fatalError("mktmpio: " + ex.getMessage());
             throw new InterruptedException(ex.getMessage());
         }
         final MktmpioEnvironment env = instance.getEnv();
         final Map<String, String> envVars = env.envVars();
-        listener.hyperlink(baseUrl + "/i/" + env.id, env.type + " instance " + env.id);
-        listener.getLogger().printf("mktmpio instance created: %s\n", env.type);
+        listener.hyperlink(baseUrl + "/i/" + env.id, env.dbType + " instance " + env.id);
+        listener.getLogger().printf("mktmpio instance created: %s\n", env.dbType);
         for (Map.Entry<String, String> entry : envVars.entrySet()) {
             listener.getLogger().printf("setting %s=%s\n", entry.getKey(), entry.getValue());
         }
@@ -92,7 +92,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         context.setDisposer(new MktmpioDisposer(env));
     }
 
-    public static ListBoxModel instanceTypes() {
+    public static ListBoxModel supportedDbTypes() {
         ListBoxModel items = new ListBoxModel();
         items.add("MySQL", "mysql");
         items.add("PostgreSQL-9.4", "postgres");
@@ -121,7 +121,7 @@ public class Mktmpio extends SimpleBuildWrapper {
         }
 
         @Override
-        public BuildWrapper newInstance(final StaplerRequest req, final JSONObject formData) throws hudson.model.Descriptor.FormException {
+        public Mktmpio newInstance(final StaplerRequest req, final JSONObject formData) throws hudson.model.Descriptor.FormException {
             return req.bindJSON(Mktmpio.class, formData);
         }
 
@@ -151,8 +151,8 @@ public class Mktmpio extends SimpleBuildWrapper {
             return "Create temporary database server for build";
         }
 
-        public ListBoxModel doFillInstanceTypeItems() {
-            return instanceTypes();
+        public ListBoxModel doFillDbTypeItems() {
+            return supportedDbTypes();
         }
     }
 }

@@ -15,10 +15,11 @@ public class MktmpioInstance {
         this.env = env;
     }
 
-    public static MktmpioInstance create(final String urlRoot, final String token, final String type, final boolean shutdownWithBuild) throws IOException, InterruptedException {
+    public static MktmpioInstance create(final String urlRoot, final String token, final String dbType, final boolean shutdownWithBuild) throws IOException, InterruptedException {
+        final String url = urlRoot + "/api/v1/new/" + dbType;
         HttpResponse<JsonNode> json;
         try {
-            json = Unirest.post(urlRoot + "/api/v1/new/" + type)
+            json = Unirest.post(url)
                     .header("accept", "application/json")
                     .header("X-Auth-Token", token)
                     .asJson();
@@ -31,7 +32,7 @@ public class MktmpioInstance {
             System.err.println("Used token: " + token);
             System.err.println("error response: " + json.getStatusText());
             System.err.println("response body: " + json.getBody().toString());
-            throw new IOException("Error creating " + type + " instance, " + message);
+            throw new IOException("Error creating " + dbType + " instance, " + message);
         }
         JSONObject res = json.getBody().getObject();
         String id = res.getString("id");
@@ -39,7 +40,7 @@ public class MktmpioInstance {
         int port = res.getInt("port");
         String username = res.optString("username", "");
         String password = res.optString("password", "");
-        final MktmpioEnvironment env = new MktmpioEnvironment(token, id, host, port, username, password, type, shutdownWithBuild);
+        final MktmpioEnvironment env = new MktmpioEnvironment(token, id, host, port, username, password, dbType, shutdownWithBuild);
         return new MktmpioInstance(env);
     }
 

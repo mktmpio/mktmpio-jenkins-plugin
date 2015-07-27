@@ -26,7 +26,7 @@ public class MktmpioInstanceTest extends MktmpioBaseTest {
         prepareFakeInstance("totally-legit-token", "redis");
         MktmpioInstance redis = MktmpioInstance.create(mockedServer(), "totally-legit-token", "redis", true);
         assertThat("result is not null", redis != null);
-        assertThat(redis.getEnv().type, is("redis"));
+        assertThat(redis.getEnv().dbType, is("redis"));
         redis.destroy();
     }
 }

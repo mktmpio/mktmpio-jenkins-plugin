@@ -14,17 +14,17 @@ public class MktmpioEnvironment extends InvisibleAction implements Serializable 
     public final int port;
     public final String username;
     public final String password;
-    public final String type;
+    public final String dbType;
     public final boolean shutdownWithBuild;
 
-    public MktmpioEnvironment(final String token, final String id, final String host, final int port, final String username, final String password, final String type, final boolean shutdownWithBuild) {
+    public MktmpioEnvironment(final String token, final String id, final String host, final int port, final String username, final String password, final String dbType, final boolean shutdownWithBuild) {
         this.token = token;
         this.id = id;
         this.host = host;
         this.port = port;
         this.username = username;
         this.password = password;
-        this.type = type;
+        this.dbType = dbType;
         this.shutdownWithBuild = shutdownWithBuild;
     }
 
@@ -35,7 +35,7 @@ public class MktmpioEnvironment extends InvisibleAction implements Serializable 
         vars.put("MKTMPIO_USERNAME", username);
         vars.put("MKTMPIO_PASSWORD", password);
         vars.put("MKTMPIO_ID", id);
-        vars.put("MKTMPIO_TYPE", type);
+        vars.put("MKTMPIO_TYPE", dbType);
         return vars;
     }
 }

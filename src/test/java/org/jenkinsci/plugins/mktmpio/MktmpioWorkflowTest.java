@@ -58,7 +58,7 @@ public class MktmpioWorkflowTest extends MktmpioBaseTest {
 
                 workflowJob.setDefinition(new CpsFlowDefinition(""
                         + "node {\n"
-                        + "  wrap([$class: 'Mktmpio', instanceType: 'redis']) {\n"
+                        + "  wrap([$class: 'Mktmpio', dbType: 'redis']) {\n"
                         + "    semaphore 'shouldAllowWorkflowRestarts'\n"
                         + "    sh 'echo REDIS_HOST=$MKTMPIO_HOST'\n"
                         + "  }\n"
@@ -104,7 +104,7 @@ public class MktmpioWorkflowTest extends MktmpioBaseTest {
 
                 workflowJob.setDefinition(new CpsFlowDefinition(""
                         + "node {\n"
-                        + "  wrap([$class: 'Mktmpio', instanceType: 'redis']) {\n"
+                        + "  wrap([$class: 'Mktmpio', dbType: 'redis']) {\n"
                         + "    sh 'echo REDIS_HOST=$MKTMPIO_HOST'\n"
                         + "  }\n"
                         + "}", true));
