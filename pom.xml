@@ -11,8 +11,9 @@
         <relativePath/>
     </parent>
     <artifactId>mktmpio</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
+    <inceptionYear>2015</inceptionYear>
 
     <name>Jenkins mktmpio Plugin</name>
     <description>Create a disposable database server for the duration of a build.</description>
@@ -35,18 +36,15 @@
             <email>r.m.graham@gmail.com</email>
         </developer>
     </developers>
-    <scm>
-        <connection>scm:git:git://github.com/mktmpio/mktmpio-jenkins-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:mktmpio/mktmpio-jenkins-plugin.git</developerConnection>
-        <url>https://github.com/mktmpio/mktmpio-jenkins-plugin</url>
-    </scm>
-    <!-- Assuming you want to host on @jenkinsci:
+    <organization>
+        <name>mktmpio team, Datajin Technologies, Inc.</name>
+        <url>https://mktmp.io/</url>
+    </organization>
     <scm>
       <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
       <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
       <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
     </scm>
-     -->
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>
